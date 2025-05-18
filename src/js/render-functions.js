@@ -1,81 +1,34 @@
-import SimpleLightbox from 'simplelightbox';
+export function renderGallery(cards) {
+    return cards
+        .map(({ webformatURL, tags, likes, views, comments, downloads, largeImageURL }) =>
+            `
+            <li class="gallery-card">
+                <a class="gallery-link" href="${largeImageURL}">
+                    <img class="gallery-image" src="${webformatURL}" alt="${tags}" height=312 width=200>
+                    <ul class="statistics">
+                        <li class="stat-element">
+                            <p class="stat-name">Likes</p>
+                            <p class="stat-value">${likes}</p>
+                        </li>
 
-const renderHTMLElement = (node, content, position = 'beforeend') => {
-  node.insertAdjacentHTML(position, content);
-};
+                        <li class="stat-element">
+                            <p class="stat-name">Views</p>
+                            <p class="stat-value">${views}</p>
+                        </li>
 
-const removeInnerHTMLElement = (node) => {
-  node.innerHTML = '';
-};
+                        <li class="stat-element">
+                            <p class="stat-name">Comments</p>
+                            <p class="stat-value">${comments}</p>
+                        </li>
 
-export const renderSearchFormElement = (node) => {
-  const content = `
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="search"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
-  `;
-
-  renderHTMLElement(node, content);
-};
-
-export const renderGallery = (node) => {
-  const content = `<div class="gallery" id="gallery"></div>`;
-
-  renderHTMLElement(node, content);
-};
-
-export const renderGalleryItem = (node, images) => {
-  const content = images.map((image) => `
-    <div class="gallery-item">
-      <a href="${image.largeImageURL}">
-        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-      </a>
-      <div class="gallery-item-info">
-        <div>
-          <b>Likes</b>
-          ${image.likes}
-        </div>
-        <div>
-          <b>Views</b>
-          ${image.views}
-        </div>
-        <div>
-          <b>Comments</b>
-          ${image.comments}
-        </div>
-        <div>
-          <b>Downloads</b>
-          ${image.downloads}
-        </div>
-      </div>
-    </div>
-  `)
-  .join('');
-
-  renderHTMLElement(node, content);
-};
-
-export const renderImagesElement = (node, images) => {
-  removeInnerHTMLElement(node);
-
-  if (images && images.length) {
-    renderGalleryItem(node, images);
-  }
-};
-
-export const renderLoadingElement = (node) => {
-  removeInnerHTMLElement(node);
-
-  const content = `
-    <div class="loading">Loading images, please wait...</div>
-    <span class="loader"></span>
-  `;
-
-  renderHTMLElement(node, content);
-};
+                        <li class="stat-element">
+                            <p class="stat-name">Downloads</p>
+                            <p class="stat-value">${downloads}</p>
+                        </li>
+                    </ul>
+                </a>
+            </li>
+      `
+        )
+        .join("");
+}

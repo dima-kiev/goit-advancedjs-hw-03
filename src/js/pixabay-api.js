@@ -1,23 +1,22 @@
-import iziToast from 'izitoast';
+import { PX_API_KEY } from '../constants/constants.js';
 
-const API_KEY = '45273601-269fa7243c6da01438f09c62a';
+const BASE_URL = 'https://pixabay.com/api';
 
-export const getImagesFromAPI = (searchQuery) => {
-  const requestQuery = `key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal`;
 
-  return fetch(`https://pixabay.com/api?${requestQuery}`, {
-    referrerPolicy: 'unsafe-url',
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
+export function getPhotos(query) {
+  const params = new URLSearchParams({
+    key: PX_API_KEY,
+    q: query,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: true,
+  });
+
+  return fetch(`${BASE_URL}/?${params}`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
       }
-        throw new Error(response.statusText);
-      })
-    .then((data) => {
-      return data.hits;
-    })
-    .catch(() => {
-      iziToast.error('Error while fetching images. Please try again!');
+      return res.json();
     });
 }
