@@ -21,7 +21,11 @@ function handleFormInput(e) {
 
 function handleSearch(e) {
   e.preventDefault();
-  if (!query) return;
+  if (!query) {
+    alert("no empty query allowed!");
+    return;
+  }
+
 
   refs.gallery.innerHTML = '';
   refs.loader.style.display = 'block';
